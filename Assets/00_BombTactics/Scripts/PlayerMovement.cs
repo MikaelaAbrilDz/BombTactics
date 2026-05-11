@@ -30,5 +30,9 @@ public class PlayerMovement : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+        if (other.gameObject.CompareTag("Win"))
+        {
+            SceneManager.LoadScene("Win");
+        }
     }
 }
