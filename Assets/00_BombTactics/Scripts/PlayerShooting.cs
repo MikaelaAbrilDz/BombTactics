@@ -19,9 +19,12 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] Transform bomb;
     [SerializeField] Transform explosionPos;
     [SerializeField] GameObject explosionParticle;
+
+    Animator anim;
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -102,11 +105,15 @@ public class PlayerShooting : MonoBehaviour
     IEnumerator Shoot()
     {
         isShooting = true;
-        bomb.gameObject.SetActive(true);
+        anim.SetTrigger("bomb");
+        yield return new WaitForSeconds(.5f);
         Vector3 newPosition = shootPivot.position;
+        bomb.gameObject.SetActive(true);
+        bomb.position = newPosition;
         float time = 0;
         float gravity = 9.8f;
         Vector2 initialSpeed = SetVelocity();
+        yield return new WaitForSeconds(.1f);
         while (Physics.OverlapSphere(newPosition, 0.5f, enviroMask).Length == 0 && time < 10)
         {
             newPosition.x = (initialSpeed.x * time);
